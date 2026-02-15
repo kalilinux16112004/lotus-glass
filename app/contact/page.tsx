@@ -1,13 +1,16 @@
 import { Navbar } from "@/components/navbar";
-import { ContactSection } from "@/components/contact-section";
 import { CTABanner } from "@/components/cta-banner";
+import ContactSection from "@/components/contact-section"; // THIS
 import { Footer } from "@/components/footer";
+console.log(ContactSection);
 
 export default function ContactPage() {
   return (
     <main>
       <Navbar />
       <ContactSection />
+      {/*-
+       
       <section className="relative py-24 lg:py-32 bg-secondary overflow-hidden">
         <div
           className="absolute inset-0 opacity-[0.02]"
@@ -84,6 +87,8 @@ export default function ContactPage() {
           </div>
         </div>
       </section>
+       
+       */}
       <CTABanner />
       <Footer />
     </main>

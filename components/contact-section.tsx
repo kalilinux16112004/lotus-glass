@@ -15,30 +15,137 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
+// Branch type definition
+interface Branch {
+  id: string;
+  name: string;
+  address: string;
+  phone: string;
+  email: string;
+}
+
+// Contact info configuration
 const contactInfo = [
   {
+    label: "Head Office",
+    value:
+      "B-11, DM Singh Compound, Opp. Shradda Tower, Thakur Complex, Kandivali (E), Mumbai – 400101",
     icon: MapPin,
-    label: "Office Address",
-    value: "Lotus Tower, Andheri East, Mumbai 400069, India",
   },
   {
-    icon: Phone,
     label: "Phone",
-    value: "+91 22 4000 1234",
+    value: "+91 9334779058 / +91 9833992158 | 022-28701651",
+    icon: Phone,
   },
   {
-    icon: Mail,
     label: "Email",
-    value: "info@lotusenterprises.in",
+    value:
+      "info@lotusenterprises.net / lotusenterprises2006@rediffmail.com",
+    icon: Mail,
   },
   {
+    label: "Business Hours",
+    value: "Mon – Sat: 9:00 AM – 6:00 PM",
     icon: Clock,
-    label: "Working Hours",
-    value: "Mon - Sat: 9:00 AM - 6:00 PM",
   },
 ];
 
-export function ContactSection() {
+
+// Sample branches data - replace with your actual data
+const branches: Branch[] = [
+  {
+    id: "mumbai",
+    name: "Head Office – Mumbai",
+    address:
+      "B-11, DM Singh Compound, Opp. Shradda Tower, Thakur Complex, Kandivali (E), Mumbai – 400101",
+    phone: "+91 9334779058 / +91 9833992158 | 022-28701651",
+    email:
+      "info@lotusenterprises.net / lotusenterprises2006@rediffmail.com",
+  },
+  {
+    id: "vadodara",
+    name: "Branch Office – Vadodara",
+    address:
+      "Office No. 1, 2nd Floor, Mrudula Sadan, Opp. Maharashtra Lodge, Dandia Bazar, Vadodara, Gujarat – 390001",
+    phone: "+91 9328449803 / +91 8866308730",
+    email: "info@lotusenterprises.net",
+  },
+  {
+    id: "rajasthan",
+    name: "Branch Office – Rajasthan",
+    address:
+      "Near B.B.I. Bank, Pratap Bazar, Bani Station – 306115, Dist. Pali (Rajasthan)",
+    phone: "+91 8955270917 / +91 9020445577",
+    email: "info@lotusenterprises.net",
+  },
+];
+
+// Branch Selector Component
+function BranchSelector() {
+  const [selectedBranch, setSelectedBranch] = useState<Branch>(branches[0]);
+
+  return (
+    <div className="space-y-4 sm:space-y-5 md:space-y-6">
+      {/* Dropdown */}
+      <div className="space-y-2">
+        <Label htmlFor="branch-select" className="text-sm font-semibold text-white/90">
+          Select Branch
+        </Label>
+        <select
+          id="branch-select"
+          className="w-full h-12 bg-white/5 border border-white/10 text-white rounded-lg px-4 focus:outline-none focus:ring-2 focus:ring-[#C5A55A]/50 focus:border-[#C5A55A] transition-all duration-300"
+          value={selectedBranch.id}
+          onChange={(e) => {
+            const branch = branches.find((b) => b.id === e.target.value);
+            if (branch) setSelectedBranch(branch);
+          }}
+        >
+          {branches.map((branch) => (
+            <option key={branch.id} value={branch.id} className="bg-[#0B1D3A] text-white">
+              {branch.name}
+            </option>
+          ))}
+        </select>
+      </div>
+
+      {/* Branch Info */}
+      <div className="space-y-3 sm:space-y-4 p-4 sm:p-5 md:p-6 rounded-lg sm:rounded-xl border border-white/10 bg-white/5 backdrop-blur-sm">
+        <div className="flex gap-2 sm:gap-3 items-start group">
+          <div className="flex h-9 w-9 sm:h-10 sm:w-10 shrink-0 items-center justify-center rounded-lg border border-white/10 bg-white/5 backdrop-blur-sm transition-all duration-300 group-hover:bg-[#C5A55A]/20 group-hover:border-[#C5A55A]/30">
+            <MapPin className="text-[#C5A55A] h-4 w-4 sm:h-[18px] sm:w-[18px]" />
+          </div>
+          <div>
+            <p className="text-[10px] sm:text-xs font-bold tracking-wider text-[#C5A55A] uppercase mb-1">Address</p>
+            <p className="text-xs sm:text-sm text-white/80 leading-relaxed">{selectedBranch.address}</p>
+          </div>
+        </div>
+
+        <div className="flex gap-2 sm:gap-3 items-center group">
+          <div className="flex h-9 w-9 sm:h-10 sm:w-10 shrink-0 items-center justify-center rounded-lg border border-white/10 bg-white/5 backdrop-blur-sm transition-all duration-300 group-hover:bg-[#C5A55A]/20 group-hover:border-[#C5A55A]/30">
+            <Phone className="text-[#C5A55A] h-4 w-4 sm:h-[18px] sm:w-[18px]" />
+          </div>
+          <div>
+            <p className="text-[10px] sm:text-xs font-bold tracking-wider text-[#C5A55A] uppercase mb-1">Phone</p>
+            <p className="text-xs sm:text-sm text-white/80">{selectedBranch.phone}</p>
+          </div>
+        </div>
+
+        <div className="flex gap-2 sm:gap-3 items-center group">
+          <div className="flex h-9 w-9 sm:h-10 sm:w-10 shrink-0 items-center justify-center rounded-lg border border-white/10 bg-white/5 backdrop-blur-sm transition-all duration-300 group-hover:bg-[#C5A55A]/20 group-hover:border-[#C5A55A]/30">
+            <Mail className="text-[#C5A55A] h-4 w-4 sm:h-[18px] sm:w-[18px]" />
+          </div>
+          <div>
+            <p className="text-[10px] sm:text-xs font-bold tracking-wider text-[#C5A55A] uppercase mb-1">Email</p>
+            <p className="text-xs sm:text-sm text-white/80">{selectedBranch.email}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// Main Contact Section Component
+export default function ContactSection() {
   const ref = useRef<HTMLDivElement>(null);
   const [isVisible, setIsVisible] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -54,14 +161,14 @@ export function ContactSection() {
     return () => observer.disconnect();
   }, []);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsSubmitted(true);
     setTimeout(() => setIsSubmitted(false), 4000);
   };
 
   return (
-    <section id="contact" className="relative py-24 lg:py-32 bg-[#0B1D3A] overflow-hidden">
+    <section id="contact" className="relative py-16 sm:py-20 md:py-24 lg:py-32 bg-[#0B1D3A] overflow-hidden">
       {/* Glass grid background */}
       <div
         className="absolute inset-0 opacity-[0.04]"
@@ -88,40 +195,40 @@ export function ContactSection() {
       <div
         ref={ref}
         className={cn(
-          "relative mx-auto max-w-7xl px-6 lg:px-8 transition-all duration-700",
+          "relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 transition-all duration-700",
           isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
         )}
       >
         {/* Section header */}
-        <div className="mb-4 flex items-center gap-3">
-          <div className="h-px w-12 bg-[#C5A55A]" />
-          <span className="text-sm font-semibold tracking-[0.2em] text-[#C5A55A] uppercase">
+        <div className="mb-3 sm:mb-4 flex items-center gap-2 sm:gap-3">
+          <div className="h-px w-8 sm:w-12 bg-[#C5A55A]" />
+          <span className="text-xs sm:text-sm font-semibold tracking-[0.15em] sm:tracking-[0.2em] text-[#C5A55A] uppercase">
             Contact Us
           </span>
-          <div className="h-px w-12 bg-[#C5A55A]/30" />
+          <div className="h-px w-8 sm:w-12 bg-[#C5A55A]/30" />
         </div>
-        <div className="mb-16 max-w-2xl">
-          <h2 className="font-serif text-3xl font-bold leading-[1.15] text-white md:text-4xl lg:text-5xl text-balance">
+        <div className="mb-10 sm:mb-12 md:mb-16 max-w-2xl">
+          <h2 className="font-serif text-2xl sm:text-3xl font-bold leading-[1.15] text-white md:text-4xl lg:text-5xl text-balance">
             Get In Touch
           </h2>
-          <p className="mt-4 text-lg leading-relaxed text-white/60 text-pretty">
+          <p className="mt-3 sm:mt-4 text-base sm:text-lg leading-relaxed text-white/60 text-pretty">
             Have a project in mind? Reach out to discuss your requirements with our
             engineering team.
           </p>
         </div>
 
-        <div className="grid gap-12 lg:grid-cols-5 lg:gap-16">
+        <div className="grid gap-8 sm:gap-10 md:gap-12 lg:grid-cols-5 lg:gap-16">
           {/* Contact form -- Glass card */}
           <div className="lg:col-span-3 h-full">
-            <div className="rounded-2xl border border-white/10 bg-white/5 backdrop-blur-xl p-8 shadow-2xl relative overflow-hidden group h-full">
+            <div className="rounded-xl sm:rounded-2xl border border-white/10 bg-white/5 backdrop-blur-xl p-5 sm:p-6 md:p-8 shadow-2xl relative overflow-hidden group h-full">
               {/* Subtle hover glow */}
               <div className="absolute -inset-1 bg-gradient-to-r from-[#C5A55A]/0 via-[#C5A55A]/10 to-[#C5A55A]/0 opacity-0 group-hover:opacity-100 transition-opacity duration-1000 blur-xl" />
               
               {/* Glass reflection */}
               <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent" />
 
-              <form onSubmit={handleSubmit} className="space-y-6 relative z-10">
-                <div className="grid gap-6 sm:grid-cols-2">
+              <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-5 md:space-y-6 relative z-10">
+                <div className="grid gap-4 sm:gap-5 md:gap-6 sm:grid-cols-2">
                   <div className="space-y-2">
                     <Label htmlFor="name" className="text-sm font-semibold text-white/90">
                       Full Name
@@ -146,7 +253,7 @@ export function ContactSection() {
                     />
                   </div>
                 </div>
-                <div className="grid gap-6 sm:grid-cols-2">
+                <div className="grid gap-4 sm:gap-5 md:gap-6 sm:grid-cols-2">
                   <div className="space-y-2">
                     <Label htmlFor="phone" className="text-sm font-semibold text-white/90">
                       Phone Number
@@ -185,7 +292,7 @@ export function ContactSection() {
                   type="submit"
                   size="lg"
                   disabled={isSubmitted}
-                  className="w-full sm:w-auto bg-[#C5A55A] text-white hover:bg-[#D4B36A] font-semibold text-base px-10 rounded-full shadow-lg shadow-[#C5A55A]/20 transition-all duration-300 hover:shadow-[#C5A55A]/30 hover:scale-[1.02] border-0"
+                  className="w-full sm:w-auto bg-[#C5A55A] text-white hover:bg-[#D4B36A] font-semibold text-sm sm:text-base px-8 sm:px-10 rounded-full shadow-lg shadow-[#C5A55A]/20 transition-all duration-300 hover:shadow-[#C5A55A]/30 hover:scale-[1.02] border-0"
                 >
                   {isSubmitted ? (
                     <>
@@ -204,31 +311,32 @@ export function ContactSection() {
           </div>
 
           {/* Contact info -- Glass card */}
-          <div className="lg:col-span-2 h-full">
-            <div className="relative overflow-hidden rounded-2xl border border-white/10 bg-white/5 backdrop-blur-xl p-8 shadow-2xl h-full">
+          <div className="lg:col-span-2 space-y-5 sm:space-y-6">
+            {/* Contact Information Card */}
+            <div className="relative overflow-hidden rounded-xl sm:rounded-2xl border border-white/10 bg-white/5 backdrop-blur-xl p-5 sm:p-6 md:p-8 shadow-2xl">
               {/* Glass reflection */}
               <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent" />
 
               {/* Decorative glass element */}
               <div className="absolute -top-12 -right-12 h-32 w-32 rounded-full bg-[#C5A55A]/10 blur-3xl" />
 
-              <h3 className="text-xl font-bold text-white mb-2">Contact Information</h3>
-              <p className="text-sm leading-relaxed text-white/60 mb-8">
+              <h3 className="text-lg sm:text-xl font-bold text-white mb-2">Contact Information</h3>
+              <p className="text-xs sm:text-sm leading-relaxed text-white/60 mb-6 sm:mb-8">
                 Our offices are open for consultations and site visits. Feel free to reach out
                 anytime.
               </p>
 
-              <div className="flex flex-col gap-8">
+              <div className="flex flex-col gap-5 sm:gap-6 md:gap-8">
                 {contactInfo.map((item) => (
-                  <div key={item.label} className="flex gap-5 group">
-                    <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl border border-white/10 bg-white/5 backdrop-blur-sm transition-all duration-300 group-hover:bg-[#C5A55A]/20 group-hover:border-[#C5A55A]/30 group-hover:scale-110">
-                      <item.icon className="h-5 w-5 text-[#C5A55A]" />
+                  <div key={item.label} className="flex gap-3 sm:gap-4 md:gap-5 group">
+                    <div className="flex h-10 w-10 sm:h-12 sm:w-12 shrink-0 items-center justify-center rounded-lg sm:rounded-xl border border-white/10 bg-white/5 backdrop-blur-sm transition-all duration-300 group-hover:bg-[#C5A55A]/20 group-hover:border-[#C5A55A]/30 group-hover:scale-110">
+                      <item.icon className="h-4 w-4 sm:h-5 sm:w-5 text-[#C5A55A]" />
                     </div>
                     <div>
-                      <p className="text-xs font-bold tracking-[0.15em] text-[#C5A55A] uppercase mb-1">
+                      <p className="text-[10px] sm:text-xs font-bold tracking-[0.15em] text-[#C5A55A] uppercase mb-1">
                         {item.label}
                       </p>
-                      <p className="text-base font-medium text-white/90 leading-snug">{item.value}</p>
+                      <p className="text-sm sm:text-base font-medium text-white/90 leading-snug">{item.value}</p>
                     </div>
                   </div>
                 ))}
@@ -238,7 +346,7 @@ export function ContactSection() {
               <div className="my-8 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
 
               {/* Quick trust badges */}
-              <div className="flex flex-wrap gap-3">
+              <div className="flex flex-wrap gap-2 sm:gap-3">
                 {["BIS Certified", "ISO 9001:2015", "Fire Safe"].map((badge) => (
                   <span
                     key={badge}
@@ -249,9 +357,21 @@ export function ContactSection() {
                 ))}
               </div>
             </div>
+
+            {/* Branch Selector Card */}
+            <div className="relative overflow-hidden rounded-xl sm:rounded-2xl border border-white/10 bg-white/5 backdrop-blur-xl p-5 sm:p-6 md:p-8 shadow-2xl">
+              {/* Glass reflection */}
+              <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent" />
+
+              <h3 className="text-lg sm:text-xl font-bold text-white mb-4 sm:mb-5 md:mb-6">Our Locations</h3>
+              <BranchSelector />
+            </div>
           </div>
         </div>
       </div>
     </section>
   );
 }
+
+// Export the BranchSelector separately if needed
+export { BranchSelector };

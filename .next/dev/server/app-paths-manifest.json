@@ -2,7 +2,5 @@
   "/about/page": "app/about/page.js",
   "/contact/page": "app/contact/page.js",
   "/page": "app/page.js",
-  "/projects/page": "app/projects/page.js",
-  "/quality/page": "app/quality/page.js",
-  "/services/page": "app/services/page.js"
+  "/projects/page": "app/projects/page.js"
 }

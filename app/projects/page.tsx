@@ -1,7 +1,7 @@
 import { Navbar } from "@/components/navbar";
 import { ProjectsSection } from "@/components/projects-section";
 import { CTABanner } from "@/components/cta-banner";
-import { ContactSection } from "@/components/contact-section";
+import ContactSection from "@/components/contact-section";
 import { Footer } from "@/components/footer";
 
 export default function ProjectsPage() {

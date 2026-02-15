@@ -2,7 +2,7 @@ import { Navbar } from "@/components/navbar";
 import { ServicesSection } from "@/components/services-section";
 import { WorkflowSection } from "@/components/workflow-section";
 import { CTABanner } from "@/components/cta-banner";
-import { ContactSection } from "@/components/contact-section";
+import ContactSection from "@/components/contact-section";
 import { Footer } from "@/components/footer";
 
 export default function ServicesPage() {

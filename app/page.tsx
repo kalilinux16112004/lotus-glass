@@ -7,7 +7,7 @@ import { ProjectsSection } from "@/components/projects-section";
 import { WhyChooseSection } from "@/components/why-choose-section";
 import { WorkflowSection } from "@/components/workflow-section";
 import { CTABanner } from "@/components/cta-banner";
-import { ContactSection } from "@/components/contact-section";
+import ContactSection from "@/components/contact-section";
 import { Footer } from "@/components/footer";
 
 export default function Page() {

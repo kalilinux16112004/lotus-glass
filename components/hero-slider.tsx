@@ -9,9 +9,12 @@ import { cn } from "@/lib/utils";
 const slides = [
   {
     image: "/images/hero-1.jpg",
-    headline: "Engineering Excellence in Every Facade",
+    headline: "LOTUS ENTERPRISES",
     subheadline:
-      "Transforming architectural visions into structurally sound, visually stunning glass exteriors that stand the test of time.",
+      "A Complete Architectural Solution Company",
+    subheadline2:
+      "Exterior Façade & Turnkey Contractors delivering engineered glazing solutions with precision and reliability."
+    
   },
   {
     image: "/images/hero-2.jpg",
@@ -36,7 +39,8 @@ export function HeroSlider() {
       if (isTransitioning) return;
       setIsTransitioning(true);
       setCurrent(index);
-      setTimeout(() => setIsTransitioning(false), 800);
+      setTimeout(() => setIsTransitioning(false), 800
+    );
     },
     [isTransitioning]
   );
@@ -46,7 +50,8 @@ export function HeroSlider() {
   }, [current, goTo]);
 
   useEffect(() => {
-    const timer = setInterval(next, 5000);
+    const timer = setInterval(next, 5000
+    );
     return () => clearInterval(timer);
   }, [next]);
 

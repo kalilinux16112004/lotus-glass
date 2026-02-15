@@ -33,18 +33,19 @@ const stats = [
 function AnimatedNumber({ value, suffix }: { value: number; suffix: string }) {
   const [count, setCount] = useState(0);
   const ref = useRef<HTMLDivElement>(null);
-  const hasAnimated = useRef(false);
 
   useEffect(() => {
+    let timer: NodeJS.Timeout;
+
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting && !hasAnimated.current) {
-          hasAnimated.current = true;
+        if (entry.isIntersecting) {
           const duration = 2000;
           const steps = 60;
           const increment = value / steps;
           let current = 0;
-          const timer = setInterval(() => {
+
+          timer = setInterval(() => {
             current += increment;
             if (current >= value) {
               setCount(value);
@@ -53,17 +54,28 @@ function AnimatedNumber({ value, suffix }: { value: number; suffix: string }) {
               setCount(Math.floor(current));
             }
           }, duration / steps);
+        } else {
+          // 👈 reset when leaving view
+          setCount(0);
+          if (timer) clearInterval(timer);
         }
       },
       { threshold: 0.3 }
     );
 
     if (ref.current) observer.observe(ref.current);
-    return () => observer.disconnect();
+
+    return () => {
+      if (timer) clearInterval(timer);
+      observer.disconnect();
+    };
   }, [value]);
 
   return (
-    <div ref={ref} className="font-serif text-4xl font-bold text-[#C5A55A] md:text-5xl tabular-nums">
+    <div
+      ref={ref}
+      className="font-serif text-4xl font-bold text-[#C5A55A] md:text-5xl tabular-nums"
+    >
       {count}
       {suffix}
     </div>
