@@ -9,11 +9,11 @@ import {
   MapPin,
   Phone,
   Mail,
-  Clock,
   Send,
   CheckCircle,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { addContactSubmission } from "@/lib/contact-submissions";
 
 // Branch type definition
 interface Branch {
@@ -23,33 +23,6 @@ interface Branch {
   phone: string;
   email: string;
 }
-
-// Contact info configuration
-const contactInfo = [
-  {
-    label: "Head Office",
-    value:
-      "B-11, DM Singh Compound, Opp. Shradda Tower, Thakur Complex, Kandivali (E), Mumbai – 400101",
-    icon: MapPin,
-  },
-  {
-    label: "Phone",
-    value: "+91 9334779058 / +91 9833992158 | 022-28701651",
-    icon: Phone,
-  },
-  {
-    label: "Email",
-    value:
-      "info@lotusenterprises.net / lotusenterprises2006@rediffmail.com",
-    icon: Mail,
-  },
-  {
-    label: "Business Hours",
-    value: "Mon – Sat: 9:00 AM – 6:00 PM",
-    icon: Clock,
-  },
-];
-
 
 // Sample branches data - replace with your actual data
 const branches: Branch[] = [
@@ -79,6 +52,10 @@ const branches: Branch[] = [
     email: "info@lotusenterprises.net",
   },
 ];
+
+const businessHours = "Mon – Sat: 9:00 AM – 6:00 PM";
+
+const certifications = ["BIS Certified", "ISO 9001:2015", "Fire Safe"];
 
 // Branch Selector Component
 function BranchSelector() {
@@ -149,6 +126,13 @@ export default function ContactSection() {
   const ref = useRef<HTMLDivElement>(null);
   const [isVisible, setIsVisible] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    service: "",
+    message: "",
+  });
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -163,8 +147,28 @@ export default function ContactSection() {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    addContactSubmission({
+      name: formData.name.trim(),
+      email: formData.email.trim(),
+      phone: formData.phone.trim(),
+      service: formData.service.trim(),
+      message: formData.message.trim(),
+    });
+
     setIsSubmitted(true);
+    setFormData({
+      name: "",
+      email: "",
+      phone: "",
+      service: "",
+      message: "",
+    });
     setTimeout(() => setIsSubmitted(false), 4000);
+  };
+
+  const handleInputChange = (field: keyof typeof formData, value: string) => {
+    setFormData((previous) => ({ ...previous, [field]: value }));
   };
 
   return (
@@ -217,10 +221,10 @@ export default function ContactSection() {
           </p>
         </div>
 
-        <div className="grid gap-8 sm:gap-10 md:gap-12 lg:grid-cols-5 lg:gap-16">
+        <div className="grid gap-8 sm:gap-10 md:gap-12 lg:grid-cols-6 lg:gap-12 lg:items-stretch">
           {/* Contact form -- Glass card */}
-          <div className="lg:col-span-3 h-full">
-            <div className="rounded-xl sm:rounded-2xl border border-white/10 bg-white/5 backdrop-blur-xl p-5 sm:p-6 md:p-8 shadow-2xl relative overflow-hidden group h-full">
+          <div className="lg:col-span-3 lg:h-full">
+            <div className="rounded-xl sm:rounded-2xl border border-white/10 bg-white/5 backdrop-blur-xl p-5 sm:p-6 md:p-8 shadow-2xl relative overflow-hidden group lg:h-full">
               {/* Subtle hover glow */}
               <div className="absolute -inset-1 bg-gradient-to-r from-[#C5A55A]/0 via-[#C5A55A]/10 to-[#C5A55A]/0 opacity-0 group-hover:opacity-100 transition-opacity duration-1000 blur-xl" />
               
@@ -236,6 +240,8 @@ export default function ContactSection() {
                     <Input
                       id="name"
                       placeholder="Your full name"
+                      value={formData.name}
+                      onChange={(event) => handleInputChange("name", event.target.value)}
                       required
                       className="h-12 bg-white/5 border-white/10 text-white placeholder:text-white/30 focus-visible:ring-[#C5A55A]/50 focus-visible:border-[#C5A55A] transition-all duration-300"
                     />
@@ -248,6 +254,8 @@ export default function ContactSection() {
                       id="email"
                       type="email"
                       placeholder="you@company.com"
+                      value={formData.email}
+                      onChange={(event) => handleInputChange("email", event.target.value)}
                       required
                       className="h-12 bg-white/5 border-white/10 text-white placeholder:text-white/30 focus-visible:ring-[#C5A55A]/50 focus-visible:border-[#C5A55A] transition-all duration-300"
                     />
@@ -262,6 +270,8 @@ export default function ContactSection() {
                       id="phone"
                       type="tel"
                       placeholder="+91 XXXXX XXXXX"
+                      value={formData.phone}
+                      onChange={(event) => handleInputChange("phone", event.target.value)}
                       className="h-12 bg-white/5 border-white/10 text-white placeholder:text-white/30 focus-visible:ring-[#C5A55A]/50 focus-visible:border-[#C5A55A] transition-all duration-300"
                     />
                   </div>
@@ -272,6 +282,8 @@ export default function ContactSection() {
                     <Input
                       id="service"
                       placeholder="e.g. Curtain Wall, Glazing"
+                      value={formData.service}
+                      onChange={(event) => handleInputChange("service", event.target.value)}
                       className="h-12 bg-white/5 border-white/10 text-white placeholder:text-white/30 focus-visible:ring-[#C5A55A]/50 focus-visible:border-[#C5A55A] transition-all duration-300"
                     />
                   </div>
@@ -284,6 +296,8 @@ export default function ContactSection() {
                     id="message"
                     placeholder="Tell us about your project requirements, location, timeline..."
                     rows={5}
+                    value={formData.message}
+                    onChange={(event) => handleInputChange("message", event.target.value)}
                     required
                     className="bg-white/5 border-white/10 text-white placeholder:text-white/30 focus-visible:ring-[#C5A55A]/50 focus-visible:border-[#C5A55A] resize-none transition-all duration-300"
                   />
@@ -311,60 +325,35 @@ export default function ContactSection() {
           </div>
 
           {/* Contact info -- Glass card */}
-          <div className="lg:col-span-2 space-y-5 sm:space-y-6">
-            {/* Contact Information Card */}
-            <div className="relative overflow-hidden rounded-xl sm:rounded-2xl border border-white/10 bg-white/5 backdrop-blur-xl p-5 sm:p-6 md:p-8 shadow-2xl">
+          <div className="lg:col-span-3 lg:h-full">
+            <div className="relative overflow-hidden rounded-xl sm:rounded-2xl border border-white/10 bg-white/5 backdrop-blur-xl p-5 sm:p-6 md:p-8 shadow-2xl lg:h-full">
               {/* Glass reflection */}
               <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent" />
 
-              {/* Decorative glass element */}
-              <div className="absolute -top-12 -right-12 h-32 w-32 rounded-full bg-[#C5A55A]/10 blur-3xl" />
-
-              <h3 className="text-lg sm:text-xl font-bold text-white mb-2">Contact Information</h3>
-              <p className="text-xs sm:text-sm leading-relaxed text-white/60 mb-6 sm:mb-8">
-                Our offices are open for consultations and site visits. Feel free to reach out
-                anytime.
-              </p>
-
-              <div className="flex flex-col gap-5 sm:gap-6 md:gap-8">
-                {contactInfo.map((item) => (
-                  <div key={item.label} className="flex gap-3 sm:gap-4 md:gap-5 group">
-                    <div className="flex h-10 w-10 sm:h-12 sm:w-12 shrink-0 items-center justify-center rounded-lg sm:rounded-xl border border-white/10 bg-white/5 backdrop-blur-sm transition-all duration-300 group-hover:bg-[#C5A55A]/20 group-hover:border-[#C5A55A]/30 group-hover:scale-110">
-                      <item.icon className="h-4 w-4 sm:h-5 sm:w-5 text-[#C5A55A]" />
-                    </div>
-                    <div>
-                      <p className="text-[10px] sm:text-xs font-bold tracking-[0.15em] text-[#C5A55A] uppercase mb-1">
-                        {item.label}
-                      </p>
-                      <p className="text-sm sm:text-base font-medium text-white/90 leading-snug">{item.value}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-
-              {/* Divider */}
-              <div className="my-8 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
-
-              {/* Quick trust badges */}
-              <div className="flex flex-wrap gap-2 sm:gap-3">
-                {["BIS Certified", "ISO 9001:2015", "Fire Safe"].map((badge) => (
-                  <span
-                    key={badge}
-                    className="inline-flex items-center rounded-full border border-[#C5A55A]/30 bg-[#C5A55A]/10 backdrop-blur-sm px-4 py-1.5 text-xs font-semibold text-[#C5A55A]"
-                  >
-                    {badge}
-                  </span>
-                ))}
-              </div>
-            </div>
-
-            {/* Branch Selector Card */}
-            <div className="relative overflow-hidden rounded-xl sm:rounded-2xl border border-white/10 bg-white/5 backdrop-blur-xl p-5 sm:p-6 md:p-8 shadow-2xl">
-              {/* Glass reflection */}
-              <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent" />
-
-              <h3 className="text-lg sm:text-xl font-bold text-white mb-4 sm:mb-5 md:mb-6">Our Locations</h3>
+              <h3 className="text-lg sm:text-xl font-bold text-white mb-3 sm:mb-4 md:mb-5">Our Locations</h3>
               <BranchSelector />
+
+              <div className="my-4 sm:my-5 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+
+              <div className="space-y-3 sm:space-y-4">
+                <div>
+                  <p className="text-[10px] sm:text-xs font-bold tracking-[0.15em] text-[#C5A55A] uppercase mb-1">
+                    Business Hours
+                  </p>
+                  <p className="text-sm sm:text-base font-medium text-white/90">{businessHours}</p>
+                </div>
+
+                <div className="flex flex-wrap gap-2 sm:gap-3">
+                  {certifications.map((badge) => (
+                    <span
+                      key={badge}
+                      className="inline-flex items-center rounded-full border border-[#C5A55A]/30 bg-[#C5A55A]/10 backdrop-blur-sm px-4 py-1.5 text-xs font-semibold text-[#C5A55A]"
+                    >
+                      {badge}
+                    </span>
+                  ))}
+                </div>
+              </div>
             </div>
           </div>
         </div>

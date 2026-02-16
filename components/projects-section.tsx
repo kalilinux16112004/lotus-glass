@@ -1,41 +1,19 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, MapPin } from "lucide-react";
 import { cn } from "@/lib/utils";
-
-const projects = [
-  {
-    image: "/images/project-1.jpg",
-    title: "Horizon Corporate Tower",
-    location: "Mumbai, Maharashtra",
-    type: "Curtain Wall System",
-  },
-  {
-    image: "/images/project-2.jpg",
-    title: "Galaxy Mall & Convention Centre",
-    location: "Bangalore, Karnataka",
-    type: "ACP Cladding & Glazing",
-  },
-  {
-    image: "/images/project-3.jpg",
-    title: "MedLife Super Speciality Hospital",
-    location: "Delhi NCR",
-    type: "Structural Glazing",
-  },
-  {
-    image: "/images/project-4.jpg",
-    title: "The Grand Heritage Hotel",
-    location: "Jaipur, Rajasthan",
-    type: "Spider Glazing & Canopy",
-  },
-];
+import {
+  DEFAULT_PROJECTS,
+  getStoredProjects,
+  type AdminProject,
+} from "@/lib/admin-projects";
 
 export function ProjectsSection() {
   const ref = useRef<HTMLDivElement>(null);
   const [isVisible, setIsVisible] = useState(false);
+  const [projects, setProjects] = useState<AdminProject[]>(DEFAULT_PROJECTS);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -46,6 +24,16 @@ export function ProjectsSection() {
     );
     if (ref.current) observer.observe(ref.current);
     return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    const customProjects = getStoredProjects();
+    if (customProjects.length === 0) {
+      setProjects(DEFAULT_PROJECTS);
+      return;
+    }
+
+    setProjects([...DEFAULT_PROJECTS, ...customProjects]);
   }, []);
 
   return (

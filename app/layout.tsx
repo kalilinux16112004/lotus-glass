@@ -19,6 +19,11 @@ export const metadata: Metadata = {
   title: "Lotus Enterprises | Premium Architectural Facade & Glazing Solutions Since 2003",
   description:
     "Lotus Enterprises delivers world-class architectural facade solutions including structural glazing, curtain walls, spider glazing, ACP cladding, and skylights. Trusted by architects and builders across India since 2003.",
+  icons: {
+    icon: "/images/favicon.ico",
+    shortcut: "/images/favicon.ico",
+    apple: "/images/favicon.ico",
+  },
   keywords: [
     "facade solutions",
     "structural glazing",

@@ -56,7 +56,7 @@ export function HeroSlider() {
   }, [next]);
 
   return (
-    <section id="home" className="relative min-h-screen w-full overflow-hidden bg-[#0B1D3A]">
+    <section id="home" className="relative min-h-[90vh] w-full overflow-hidden bg-[#0B1D3A]">
       {/* Subtle background pattern */}
       <div className="absolute inset-0 opacity-5">
         <div
@@ -70,7 +70,7 @@ export function HeroSlider() {
       </div>
 
       {/* Split layout container */}
-      <div className="relative z-10 mx-auto flex min-h-screen max-w-7xl flex-col lg:flex-row items-center gap-8 lg:gap-12 px-6 pt-28 pb-12 lg:pt-0 lg:pb-0 lg:px-8">
+      <div className="relative z-10 mx-auto flex min-h-[86vh] max-w-7xl flex-col lg:flex-row items-center gap-6 lg:gap-8 px-6 pt-32 pb-8 md:pt-36 lg:pt-28 lg:pb-0 lg:px-8">
 
         {/* LEFT SIDE -- Text content */}
         <div className="flex-1 flex flex-col justify-center lg:pr-8">
@@ -86,9 +86,9 @@ export function HeroSlider() {
                 )}
               >
                 {index === current && (
-                  <div className="space-y-6">
+                  <div className="space-y-4 lg:space-y-5">
                     {/* Badge */}
-                    <div className="inline-flex items-center gap-2.5 rounded-full border border-[#C5A55A]/30 bg-[#C5A55A]/10 px-5 py-2.5">
+                    <div className="inline-flex items-center gap-2 rounded-full border border-[#C5A55A]/30 bg-[#C5A55A]/10 px-4 py-2">
                       <span className="h-1.5 w-1.5 rounded-full bg-[#C5A55A]" />
                       <span className="text-xs font-semibold tracking-[0.25em] text-[#C5A55A] uppercase">
                         Since 2003
@@ -106,7 +106,7 @@ export function HeroSlider() {
                     </p>
 
                     {/* CTA Buttons */}
-                    <div className="flex flex-wrap gap-4 pt-2">
+                    <div className="flex flex-wrap gap-3 pt-1">
                       <Button
                         asChild
                         size="lg"
@@ -128,7 +128,7 @@ export function HeroSlider() {
                     </div>
 
                     {/* Dot navigation -- under CTA buttons */}
-                    <div className="flex items-center gap-3 pt-4">
+                    <div className="flex items-center gap-2.5 pt-2">
                       {slides.map((_, dotIndex) => (
                         <button
                           key={`dot-${dotIndex}`}
@@ -152,7 +152,7 @@ export function HeroSlider() {
 
         {/* RIGHT SIDE -- Image slider panel */}
         <div className="relative w-full lg:w-[48%] flex-shrink-0">
-          <div className="relative aspect-[4/3] lg:aspect-[3/4] w-full overflow-hidden rounded-2xl lg:rounded-3xl border border-white/10 shadow-2xl shadow-black/40">
+          <div className="relative aspect-[4/3] lg:aspect-[4/3] w-full overflow-hidden rounded-2xl lg:rounded-3xl border border-white/10 shadow-2xl shadow-black/40">
             {/* Sliding images */}
             {slides.map((slide, index) => (
               <div
@@ -179,7 +179,7 @@ export function HeroSlider() {
             <div className="absolute bottom-0 right-0 h-16 w-16 border-b-2 border-r-2 border-[#C5A55A]/40 rounded-br-2xl lg:rounded-br-3xl pointer-events-none" />
 
             {/* Glass slide counter badge */}
-            <div className="absolute bottom-4 left-4 flex items-center gap-2 rounded-full border border-white/15 bg-white/10 backdrop-blur-xl px-4 py-2 pointer-events-none">
+            <div className="absolute bottom-8 left-4 sm:bottom-10 flex items-center gap-2 rounded-full border border-white/15 bg-white/10 backdrop-blur-xl px-4 py-2 pointer-events-none">
               <span className="text-sm font-semibold text-white tabular-nums">
                 {String(current + 1).padStart(2, "0")}
               </span>
@@ -198,7 +198,7 @@ export function HeroSlider() {
       {/* Bottom transition to next section */}
       <div className="absolute bottom-0 left-0 right-0 z-20 pointer-events-none">
         <div className="h-px bg-gradient-to-r from-transparent via-[#C5A55A]/30 to-transparent" />
-        <div className="h-16 bg-gradient-to-t from-background to-transparent" />
+        <div className="h-10 bg-gradient-to-t from-[#0B1D3A] to-transparent" />
       </div>
     </section>
   );
