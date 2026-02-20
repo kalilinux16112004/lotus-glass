@@ -295,7 +295,7 @@ export default function ContactSection() {
                   <Textarea
                     id="message"
                     placeholder="Tell us about your project requirements, location, timeline..."
-                    rows={5}
+                    rows={9}
                     value={formData.message}
                     onChange={(event) => handleInputChange("message", event.target.value)}
                     required

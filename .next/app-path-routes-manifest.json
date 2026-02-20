@@ -1,0 +1,13 @@
+{
+  "/Admin/dashboard/page": "/Admin/dashboard",
+  "/Admin/page": "/Admin",
+  "/_global-error/page": "/_global-error",
+  "/_not-found/page": "/_not-found",
+  "/about/page": "/about",
+  "/contact/page": "/contact",
+  "/icon.png/route": "/icon.png",
+  "/page": "/",
+  "/projects/page": "/projects",
+  "/quality/page": "/quality",
+  "/services/page": "/services"
+}
